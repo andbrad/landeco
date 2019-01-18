@@ -1,0 +1,68 @@
+---
+title: "Lab 2"
+author: "Brad Anderson"
+date: "January 17, 2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library(tidyverse)
+library(entropy)
+library(readr)
+```
+
+
+
+```{r}
+df <- as.data.frame(read_csv("ex2_sample_data.csv"))
+
+```
+```{r}
+table(df[,5])
+```
+
+```{r}
+
+mi.empirical(table(df[,6],df[,3]))
+mi.empirical(table(df[,6],df[,4]))
+mi.empirical(table(df[,6],df[,5]))
+
+```
+
+Geology has the highest Shannon's entropy statistic.
+
+```{r}
+
+mi_geo1_vegflow <- mi.empirical(table(df[df[,3]==1,6], df[df[,3]==1,5]))
+mi_geo1_vegflow
+mi_geo1_vegrad <- mi.empirical(table(df[df[,3]==1,6], df[df[,3]==1,4]))
+mi_geo1_vegrad
+
+```
+Within Geology1, radiation has the highest.
+
+```{r}
+mi_geo2_vegflow <- mi.empirical(table(df[df[,3]==2,6], df[df[,3]==2,5]))
+mi_geo2_vegflow
+mi_geo2_vegrad <- mi.empirical(table(df[df[,3]==2,6], df[df[,3]==2,4]))
+mi_geo2_vegrad
+```
+
+```{r}
+mi_geo5_vegflow <- mi.empirical(table(df[df[,3]==5,6], df[df[,3]==5,5]))
+mi_geo5_vegflow
+mi_geo5_vegrad <- mi.empirical(table(df[df[,3]==5,6], df[df[,3]==5,4]))
+mi_geo5_vegrad
+```
+
+```{r}
+mi_geo6_vegflow <- mi.empirical(table(df[df[,3]==6,6], df[df[,3]==6,5]))
+mi_geo6_vegflow
+mi_geo6_vegrad <- mi.empirical(table(df[df[,3]==6,6], df[df[,3]==6,4]))
+mi_geo6_vegrad
+```
+
