@@ -66,3 +66,4 @@ mi_geo6_vegrad <- mi.empirical(table(df[df[,3]==6,6], df[df[,3]==6,4]))
 mi_geo6_vegrad
 ```
 
+The End
