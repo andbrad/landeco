@@ -1,8 +1,14 @@
+#Brad Anderson
+#
+#ESM 212 - Spring 2019
+#
 #analyze ESM grassland community data
 #species accumulation curves and similarity
 ####
+####
+####
+###
 #install and load package vegan
-install.packages("vegan")
 library(vegan)
 library(tidyverse)
 ####
@@ -21,7 +27,7 @@ accum3 <- specaccum(padat[25:36,])	#plot 3, subplots 1-10
 accum4 <- specaccum(padat[37:48,])	#plot 4, subplots 1-10
 ##
 #plot accumulation curves for each plot
-plot(accum1,ylim=c(0,20),xlab="subplots",ylab="species")
+plot(accum1,ylim=c(0,25),xlab="subplots",ylab="species")
 lines(accum2,col="red")
 lines(accum3,col="blue")
 lines(accum4,col="green")
