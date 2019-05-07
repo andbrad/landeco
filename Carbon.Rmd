@@ -1,0 +1,31 @@
+---
+title: "Estimating Forest Carbon"
+author: "Brad Anderson"
+date: "May 7, 2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library(tidyverse)
+```
+
+
+ESM 212
+Estimating forest carbon: a case study of oak woodlands at Sedgwick Ranch Reserve
+Exercise 2, Spring 2019
+
+2) For each plot, calculate the total aboveground biomass of each tree. Apply the equation from table 1 in Jenkins et al. (2004), assuming that the allometric parameters for Quercus douglasii and Q. agrifolia are equivalent to those for “juniper/oak/mesquite.” 
+Note: How do you handle multiple-trunked oaks? Calculate the total basal area by summing the calculated area of each trunk. Then calculate the equivalent DBH for a single-trunked tree with the same area. Be careful to track your units of measurement.
+
+3) For comparison, produce an alternative estimate of aboveground tree biomass for each tree using equations 7 and 8 provided in Table 2 from Karlik and Chojnacky (2014).
+
+4) Plot the dbh-biomass relationships for your different equations as illustrated in Jenkins et al. (2004), Figure 2. This will provide some sense of estimation uncertainty.
+
+5) Based on the parameters from equation 8, Table 2, in Karlik and Chojnacky (2014), estimate the total tree biomass per plot by summing the biomass for all trees in the plots, and dividing by the total plot area. Convert your estimate to tree carbon per hectare (see top of page 230 in Karlik and Chojnacky (2014)).
+
+6) Briefly discuss the major sources of uncertainty and error in your estimate of carbon in blue oak woodlands at Sedgwick Reserve, and how you might reduce the uncertainty in that estimate.
+
