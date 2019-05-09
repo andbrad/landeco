@@ -11,6 +11,8 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ```{r include=FALSE}
 library(tidyverse)
+library(knitr)
+library(kableExtra)
 
 trees <- read_csv("All_plots_PlantedWoodyStemData.csv")
 
@@ -19,45 +21,77 @@ trees <- mutate(trees, ba = pi*(DBH/2)^2)
 
 
 ESM 212  
-**Estimating forest carbon: a case study of oak woodlands at Sedgwick Ranch Reserve**  
+**Estimating forest Carbon: a case study of oak woodlands at Sedgwick Ranch Reserve**  
 Exercise 2, Spring 2019
 
-2) For each plot, calculate the total aboveground biomass of each tree. Apply the equation from table 1 in Jenkins et al. (2004), assuming that the allometric parameters for Quercus douglasii and Q. agrifolia are equivalent to those for “juniper/oak/mesquite.” 
+2) For each plot, calculate the total aboveground Biomass of each tree. Apply the equation from table 1 in Jenkins et al. (2004), assuming that the allometric parameters for Quercus douglasii and Q. agrifolia are equivalent to those for “juniper/oak/mesquite.” 
 Note: How do you handle multiple-trunked oaks? Calculate the total basal area by summing the calculated area of each trunk. Then calculate the equivalent DBH for a single-trunked tree with the same area. Be careful to track your units of measurement.
 
-```{r include=FALSE}
+```{r}
 
 total_ba <- mutate(trees, ba = pi*(DBH/2)^2) %>% 
  group_by(treeid) %>%
   summarise(area = sum(ba)) %>% 
   mutate(dbh = sqrt(area/pi)*2) %>% 
   round(1) %>% 
-  mutate(biomass_jenk = exp(-0.7152 + 1.7029*log(dbh)))
-  
+  mutate(Biomass_jenk = exp(-0.7152 + 1.7029*log(dbh)))
 
 ```
 
 
-3) For comparison, produce an alternative estimate of aboveground tree biomass for each tree using equation 7 provided in Table 2 from Karlik and Chojnacky (2014).
+3) For comparison, produce an alternative estimate of aboveground tree Biomass for each tree using equation 7 provided in Table 2 from Karlik and Chojnacky (2014).
 
 ```{r}
 
-total_ba <- mutate(total_ba, biomass_karlik = 0.068*dbh^2.569)
+total_ba <- mutate(total_ba, Biomass_karlik = 0.068*dbh^2.569)
+
+
+total_ba %>%
+  kable() %>%
+  kable_styling()
 ```
 
 
-4) Plot the dbh-biomass relationships for your different equations as illustrated in Jenkins et al. (2004), Figure 2. This will provide some sense of estimation uncertainty.
+4) Plot the dbh-Biomass relationships for your different equations as illustrated in Jenkins et al. (2004), Figure 2. This will provide some sense of estimation uncertainty.
 
 ```{r}
-plot(total_ba$dbh, total_ba$biomass_jenk,xlab="DBH (cm)",ylab="Biomass (kg)", col="blue")
-points(total_ba$dbh, total_ba$biomass_karlik,col="red")
+plot(total_ba$dbh, total_ba$Biomass_jenk,xlab="DBH (cm)",ylab="Biomass (kg)", col="blue")
+points(total_ba$dbh, total_ba$Biomass_karlik,col="red")
 legend(60,200 , c("Jenkins","Karlik-Chojnacky"), cex=0.8, 
    col=c("blue","red"), pch=1:1)
 ```
 
 
-5) Based on the parameters from equation 7, Table 2, in Karlik and Chojnacky (2014), estimate the total tree biomass per plot by summing the biomass for all trees in the plots, and dividing by the total plot area. Convert your estimate to tree carbon per hectare (see top of page 230 in Karlik and Chojnacky (2014)).
+5) Based on the parameters from equation 7, Table 2, in Karlik and Chojnacky (2014), estimate the total tree Biomass per plot by summing the Biomass for all trees in the plots, and dividing by the total plot area. Convert your estimate to tree Carbon per hectare (see top of page 230 in Karlik and Chojnacky (2014)).
 
-6) Briefly discuss the major sources of uncertainty and error in your estimate of carbon in blue oak woodlands at Sedgwick Reserve, and how you might reduce the uncertainty in that estimate.
+```{r}
 
+plot_ba <- merge(total_ba, trees, by="treeid", all.x = TRUE) %>% 
+  select(Plot, treeid, Biomass_karlik) %>% 
+  distinct(treeid, .keep_all= TRUE)
+```
+
+```{r}
+
+plot_Biomass <- plot_ba %>% 
+ group_by(Plot) %>%
+  summarise(Biomass = sum(Biomass_karlik)) %>% 
+  mutate(Carbon = Biomass*0.4585) %>% 
+  mutate("Carbon per Hectare" = Carbon*0.125)
+
+plot_Biomass %>%
+  kable() %>%
+  kable_styling()
+
+```
+
+
+6) Briefly discuss the major sources of uncertainty and error in your estimate of Carbon in blue oak woodlands at Sedgwick Reserve, and how you might reduce the uncertainty in that estimate.
+
+
+Belowground biomass
+
+Length of branches
+Using dbh as a proxy for total volume
+We did not take the height of trees
 
